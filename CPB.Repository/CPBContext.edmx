@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Slot_BookingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeAcenumber" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeAcenumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="25" />
+          <Property Name="FullName" Type="varchar" MaxLength="51" StoreGeneratedPattern="Computed" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsLockedReservation" Type="bit" />
+        </EntityType>
+        <EntityType Name="ParkingSpace">
+          <Key>
+            <PropertyRef Name="SpaceId" />
+          </Key>
+          <Property Name="SpaceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpaceNumber" Type="int" Nullable="false" />
+          <Property Name="IsOccupied" Type="bit" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="ReservationId" />
+          </Key>
+          <Property Name="ReservationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeAcenumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SpaceId" Type="int" Nullable="false" />
+          <Property Name="VehicalRegistrationNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CheckIn" Type="datetime" Nullable="false" />
+          <Property Name="CheckOut" Type="datetime" Nullable="false" />
+          <Property Name="ReservationDate" Type="date" Nullable="false" />
+          <Property Name="TotalHours" Type="int" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <Association Name="FK__Reservati__Emplo__286302EC">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeAcenumber" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="EmployeeAcenumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__Space__29572725">
+          <End Role="ParkingSpace" Type="Self.ParkingSpace" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParkingSpace">
+              <PropertyRef Name="SpaceId" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="SpaceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Slot_BookingModelStoreContainer">
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ParkingSpace" EntityType="Self.ParkingSpace" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Reservati__Emplo__286302EC" Association="Self.FK__Reservati__Emplo__286302EC">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__Space__29572725" Association="Self.FK__Reservati__Space__29572725">
+            <End Role="ParkingSpace" EntitySet="ParkingSpace" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Slot_BookingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeAcenumber" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeAcenumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" MaxLength="51" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsLockedReservation" Type="Boolean" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK__Reservati__Emplo__286302EC" FromRole="Employee" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="ParkingSpace">
+          <Key>
+            <PropertyRef Name="SpaceId" />
+          </Key>
+          <Property Name="SpaceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpaceNumber" Type="Int32" Nullable="false" />
+          <Property Name="IsOccupied" Type="Boolean" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK__Reservati__Space__29572725" FromRole="ParkingSpace" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="ReservationId" />
+          </Key>
+          <Property Name="ReservationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeAcenumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SpaceId" Type="Int32" Nullable="false" />
+          <Property Name="VehicalRegistrationNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CheckIn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CheckOut" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ReservationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotalHours" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Reservati__Emplo__286302EC" FromRole="Reservation" ToRole="Employee" />
+          <NavigationProperty Name="ParkingSpace" Relationship="Self.FK__Reservati__Space__29572725" FromRole="Reservation" ToRole="ParkingSpace" />
+        </EntityType>
+        <Association Name="FK__Reservati__Emplo__286302EC">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeAcenumber" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="EmployeeAcenumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__Space__29572725">
+          <End Role="ParkingSpace" Type="Self.ParkingSpace" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParkingSpace">
+              <PropertyRef Name="SpaceId" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="SpaceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Slot_BookingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="ParkingSpaces" EntityType="Self.ParkingSpace" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+          <AssociationSet Name="FK__Reservati__Emplo__286302EC" Association="Self.FK__Reservati__Emplo__286302EC">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__Space__29572725" Association="Self.FK__Reservati__Space__29572725">
+            <End Role="ParkingSpace" EntitySet="ParkingSpaces" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Slot_BookingModelStoreContainer" CdmEntityContainer="Slot_BookingEntities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="Slot_BookingModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeAcenumber" ColumnName="EmployeeAcenumber" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IsLockedReservation" ColumnName="IsLockedReservation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParkingSpaces">
+            <EntityTypeMapping TypeName="Slot_BookingModel.ParkingSpace">
+              <MappingFragment StoreEntitySet="ParkingSpace">
+                <ScalarProperty Name="SpaceId" ColumnName="SpaceId" />
+                <ScalarProperty Name="SpaceNumber" ColumnName="SpaceNumber" />
+                <ScalarProperty Name="IsOccupied" ColumnName="IsOccupied" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="Slot_BookingModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservation">
+                <ScalarProperty Name="ReservationId" ColumnName="ReservationId" />
+                <ScalarProperty Name="EmployeeAcenumber" ColumnName="EmployeeAcenumber" />
+                <ScalarProperty Name="SpaceId" ColumnName="SpaceId" />
+                <ScalarProperty Name="VehicalRegistrationNumber" ColumnName="VehicalRegistrationNumber" />
+                <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
+                <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+                <ScalarProperty Name="ReservationDate" ColumnName="ReservationDate" />
+                <ScalarProperty Name="TotalHours" ColumnName="TotalHours" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
